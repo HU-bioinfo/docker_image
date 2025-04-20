@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set +e
+#set -euo pipefail
+
+# スクリプトのディレクトリを取得
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+PWD=$(pwd)
+
+# ライブラリ読み込み
+source "$SCRIPT_DIR/lib.sh"
+
+# ヘルプメッセージ
+usage() {
+    echo "Usage: prem <command> <target> [options]"
+    echo "Commands:"
+    echo "  init <proj_name> [-py / -r]     initialize project"
+    echo "  list                            show projects list"
+    echo "  rm <proj_name>                  remove project"
+    echo "  rm_all                          remove all projects"
+}
+
+# 引数チェック
+if [ $# -lt 1 ]; then
+    usage
+else
+    COMMAND=$1
+    shift 1  # 最初の1つの引数を削除し、残りをオプションとして扱う
+
+    # コマンド実行
+    case "$COMMAND" in
+        init)
+            init "$@"
+            ;;
+            
+        list)
+            list "$@"
+            ;;
+        
+        rm)
+            rm_proj "$@"
+            ;;
+        
+        rm_all)
+            rm_all "$@"
+            ;;
+            
+        *)
+            log_error "Unknown command: $COMMAND"
+            usage
+            ;;
+    esac
+fi
