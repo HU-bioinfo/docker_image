@@ -2,19 +2,10 @@
 
 source /etc/environment
 
-# echo 'if [ -f /etc/environment ]; then' >> ~/.bashrc
-# echo '    export $(grep -v "^#" /etc/environment | xargs)' >> ~/.bashrc
-# echo 'fi' >> ~/.bashrc
-# echo 'export PATH="$(uv python list | grep $PYTHON_VERSION | awk '\''{print $2}'\'' | xargs dirname):$PATH"' >> ~/.bashrc
-
 if [ -f /etc/environment ]; then
     export $(grep -v "^#" /etc/environment | xargs)
 fi
-# export PATH="$(uv python list | grep $PYTHON_VERSION | awk '{print $2}' | xargs dirname):$PATH"
-
-export UV_CACHE_DIR="$CACHE_DIR/uv"
-export RENV_PATHS_ROOT="$CACHE_DIR/renv"
-export ENV_DIR="$CACHE_DIR/env"
+export PATH="$(uv python list | grep $PYTHON_VERSION | awk '{print $2}' | xargs dirname):$PATH"
 
 if [ ! -r "$CACHE_DIR" ] || [ ! -w "$CACHE_DIR" ] || [ ! -x "$CACHE_DIR" ]; then
     echo "Permission denied: the cache directory cannot be accessed with full permissions."
@@ -26,13 +17,13 @@ if [ ! -r "$PROJ_DIR" ] || [ ! -w "$PROJ_DIR" ] || [ ! -x "$PROJ_DIR" ]; then
     exit 1
 fi
 
+export UV_CACHE_DIR="$CACHE_DIR/uv"
+export RENV_PATHS_ROOT="$CACHE_DIR/renv"
+
 mkdir -p $UV_CACHE_DIR
 mkdir -p $RENV_PATHS_ROOT
-mkdir -p $ENV_DIR
 
-export LC_ALL=ja_JP.UTF-8
-
-export PATH=$PATH:/usr/local/etc/prem
+export UV_GITHUB_TOKEN=$GITHUB_PAT
 
 eval "$(direnv hook bash)"
 cp /usr/local/etc/.envrctemp $PROJ_DIR/.envrc
@@ -54,5 +45,7 @@ for dir in $PROJ_DIR/*/; do
         direnv allow "$dir"
     fi
 done
+
+export PATH=$PATH:/usr/local/etc/prem
 
 cd $PROJ_DIR

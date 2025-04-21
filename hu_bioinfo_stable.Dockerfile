@@ -50,4 +50,3 @@ RUN mkdir -p /home/user/cache && \
     chown -R user:normal /home/user/cache /home/user/proj
 
 RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
-# ENTRYPOINT ["/usr/local/bin/entrypoint.sh", "-i"]
