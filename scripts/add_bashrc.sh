@@ -5,7 +5,6 @@ source /etc/environment
 if [ -f /etc/environment ]; then
     export $(grep -v "^#" /etc/environment | xargs)
 fi
-export PATH="$(uv python list | grep $PYTHON_VERSION | awk '{print $2}' | xargs dirname):$PATH"
 
 if [ ! -r "$CACHE_DIR" ] || [ ! -w "$CACHE_DIR" ] || [ ! -x "$CACHE_DIR" ]; then
     echo "Permission denied: the cache directory cannot be accessed with full permissions."
@@ -24,6 +23,7 @@ mkdir -p $UV_CACHE_DIR
 mkdir -p $RENV_PATHS_ROOT
 
 export UV_GITHUB_TOKEN=$GITHUB_PAT
+git config --global init.defaultBranch main
 
 eval "$(direnv hook bash)"
 cp /usr/local/etc/.envrctemp $PROJ_DIR/.envrc

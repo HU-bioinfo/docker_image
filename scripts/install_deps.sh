@@ -66,7 +66,8 @@ apt-get install -y --no-install-recommends \
     tcl \
     libfribidi-dev \
     libharfbuzz-dev \
-    libudunits2-dev
+    libudunits2-dev \
+    pandoc
 
     # libmariadb-dev-compat \
     # libmariadb-dev \
