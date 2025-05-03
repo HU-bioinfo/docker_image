@@ -47,5 +47,3 @@ for dir in $PROJ_DIR/*/; do
 done
 
 export PATH=$PATH:/usr/local/etc/prem
-
-cd $PROJ_DIR

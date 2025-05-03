@@ -54,7 +54,6 @@ apt-get install -y --no-install-recommends \
     imagemagick \
     libmagick++-dev \
     gsfonts \
-    python3 \
     libglu1-mesa-dev \
     libgl1-mesa-dev \
     libgdal-dev \
@@ -69,5 +68,6 @@ apt-get install -y --no-install-recommends \
     libudunits2-dev \
     pandoc
 
+    # python3 \
     # libmariadb-dev-compat \
     # libmariadb-dev \
