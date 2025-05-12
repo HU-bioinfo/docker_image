@@ -25,19 +25,20 @@ RUN /build_scripts/install_deps.sh && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/* 
 
+COPY /scripts/.envrc /usr/local/etc/.envrctemp
 COPY /scripts/.Rprofile /usr/local/etc/R/.Rprofile
 COPY /scripts/add_bashrc.sh /usr/local/bin/add_bashrc.sh
-
-RUN chmod +x /usr/local/bin/add_bashrc.sh
-
-COPY /scripts/.envrc /usr/local/etc/.envrctemp
 COPY /scripts/prem/ /usr/local/etc/prem/
+
+RUN chmod +x /usr/local/bin/add_bashrc.sh && \
+    chown -R user:normal /usr/local/etc/prem/ && \
+    chmod +x /usr/local/etc/prem/* 
 
 USER user
 WORKDIR /home/user/
 
 RUN mkdir -p /home/user/cache && \
     mkdir -p /home/user/proj && \
-    chown -R user:normal /home/user/cache /home/user/proj
+    chown -R user:normal /home/user/cache /home/user/proj 
 
 RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
