@@ -14,7 +14,7 @@ HU Bioinfo Containerは、[HU Bioinfo Launcher](https://marketplace.visualstudio
     - renv
     - httpgd
 - Python
-    -uv
+    - uv
 
 ### hu_bioinfo_full
 - R
