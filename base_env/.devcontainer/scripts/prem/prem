@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set +e
+#set -euo pipefail
+
+# スクリプトのディレクトリを取得
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+PWD=$(pwd)
+
+# ライブラリ読み込み
+source "$SCRIPT_DIR/lib.sh"
+
+main "$@"

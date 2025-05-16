@@ -1,0 +1,20 @@
+services:
+  hubioinfo-full:
+    image: hubioinfows/full_env:latest
+    build:
+      context: .
+      dockerfile: hu_bioinfo_full.Dockerfile
+    container_name: dev-hubioinfows-full-container
+    environment:
+      - DISABLE_AUTH=true
+      - CACHE_DIR=/home/user/cache
+      - PROJ_DIR=/home/user/proj
+      - GITHUB_PAT=YOUR_GITHUB_PAT_HERE
+    volumes:
+      - ../projects:/home/user/proj
+      - ../../cache:/home/user/cache
+      - ../../cache/TinyTeX:/home/user/.TinyTeX
+    ports:
+      - 8080:8080
+    command: sleep infinity
+    init: true
