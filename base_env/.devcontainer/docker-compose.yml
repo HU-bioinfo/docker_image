@@ -7,13 +7,13 @@ services:
     container_name: dev-hubioinfows-full-container
     environment:
       - DISABLE_AUTH=true
-      - CACHE_DIR=/home/user/cache
-      - PROJ_DIR=/home/user/proj
-      - GITHUB_PAT=YOUR_GITHUB_PAT_HERE
+      - CACHE_DIR=/home/ubuntu/cache
+      - PROJ_DIR=/home/ubuntu/proj
+      - GITHUB_PAT=YOUR_GITHUB_PAT
     volumes:
-      - ../projects:/home/user/proj
-      - ../../cache:/home/user/cache
-      - ../../cache/TinyTeX:/home/user/.TinyTeX
+      - ../projects:/home/ubuntu/proj
+      - ../../cache:/home/ubuntu/cache
+      - ../../cache/TinyTeX:/home/ubuntu/.TinyTeX
     ports:
       - 8080:8080
     command: sleep infinity

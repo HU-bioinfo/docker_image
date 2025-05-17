@@ -2,9 +2,9 @@
     "name": "dev-hubioinfows-full-container",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "hubioinfo-full",
-    "workspaceFolder": "/home/user/proj",
-    "forwardPorts": [8080, 8081],
-    "postCreateCommand": "if [ -f /build_scripts/install_tinytex.sh ]; then bash /build_scripts/install_tinytex.sh; else echo 'This is base_env'; fi",
+    "workspaceFolder": "/home/ubuntu/proj",
+    "forwardPorts": [8080],
+    "postCreateCommand": "if [ -f /build_scripts/install_tinytex.sh ]; then bash /build_scripts/install_tinytex.sh; else echo 'This is lite_env'; fi",
     "customizations": {
         "vscode": {
             "extensions": [

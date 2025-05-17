@@ -66,8 +66,8 @@ cursor() {
 }
 
 # TinyTeXのパスを追加（存在する場合）
-if [ -d "/home/user/.TinyTeX/bin/x86_64-linux" ]; then
-  export PATH="/home/user/.TinyTeX/bin/x86_64-linux:$PATH"
+if [ -d "/home/ubuntu/.TinyTeX/bin/x86_64-linux" ]; then
+  export PATH="/home/ubuntu/.TinyTeX/bin/x86_64-linux:$PATH"
 fi
 
 # radianのエイリアスを"r"に設定

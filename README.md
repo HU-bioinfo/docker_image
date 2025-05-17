@@ -8,7 +8,12 @@ HU Bioinfo Containerは、[HU Bioinfo Launcher](https://marketplace.visualstudio
 [HU Bioinfo Launcher](https://marketplace.visualstudio.com/items?itemName=hu-bioinfo-workshop.bioinfo-launcher)を参照してください。
 
 ## コンテナ環境の概要
-### hu_bioinfo_lite
+### USER
+- ubuntu:ubuntu (1000:1000)
+- 管理者権限なし
+- パスワード:無し
+
+### hu_bioinfo_lite.Dockerfile
 - R
     - radian
     - renv
@@ -16,7 +21,7 @@ HU Bioinfo Containerは、[HU Bioinfo Launcher](https://marketplace.visualstudio
 - Python
     - uv
 
-### hu_bioinfo_full
+### hu_bioinfo_full.Dockerfile
 - R
     - radian
     - renv

@@ -58,30 +58,30 @@ RUN mkdir -p /usr/local/etc/scripts && \
 
 # ファイルのパーミッション設定
 RUN chmod +x /usr/local/bin/add_bashrc.sh && \
-    chown -R user:normal /usr/local/etc/prem/ && \
+    chown -R ubuntu:ubuntu /usr/local/etc/prem/ && \
     chmod +x /usr/local/etc/prem/* 
     # && \
-    # chown -R user:normal /usr/local/etc/LaTeX/ && \
+    # chown -R ubuntu:ubuntu /usr/local/etc/LaTeX/ && \
     # chmod +x /usr/local/etc/LaTeX/* && \
-    # chown -R user:normal /usr/local/etc/slides/ && \
+    # chown -R ubuntu:ubuntu /usr/local/etc/slides/ && \
     # chmod +x /usr/local/etc/slides/*
 
 # TinyTeXビルドスクリプトのパーミッション設定
 # RUN chmod +x /build_scripts/install_tinytex.sh
-# RUN chown user:normal /build_scripts/install_tinytex.sh
+# RUN chown ubuntu:ubuntu /build_scripts/install_tinytex.sh
 
 # ディレクトリの作成とパーミッション設定
-RUN mkdir -p /home/user/cache && \
-    mkdir -p /home/user/proj && \
-    chown -R user:normal /home/user/cache && \
-    chown -R user:normal /home/user/proj
+RUN mkdir -p /home/ubuntu/cache && \
+    mkdir -p /home/ubuntu/proj && \
+    chown -R ubuntu:ubuntu /home/ubuntu/cache && \
+    chown -R ubuntu:ubuntu /home/ubuntu/proj
 
 # ユーザーの切り替え
-USER user
-WORKDIR /home/user/
+USER ubuntu
+WORKDIR /home/ubuntu/
 
 # add_bashrc.shの実行
-RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
+RUN cat /usr/local/bin/add_bashrc.sh >> /home/ubuntu/.bashrc
 
 # デフォルトのシェルをbashに設定
 SHELL ["/bin/bash", "-c"]

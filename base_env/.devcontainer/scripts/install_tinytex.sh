@@ -5,10 +5,10 @@ echo "TinyTeX Installation"
 
 # インストール処理
 Rscript --no-site-file -e "install.packages('tinytex')" 
-Rscript --no-site-file -e "tinytex::install_tinytex(dir = '/home/user/.TinyTeX', force = TRUE)"
+Rscript --no-site-file -e "tinytex::install_tinytex(dir = '/home/ubuntu/.TinyTeX', force = TRUE)"
 
 # パスを通す
-export PATH="/home/user/.TinyTeX/bin/x86_64-linux:$PATH"
+export PATH="/home/ubuntu/.TinyTeX/bin/x86_64-linux:$PATH"
 
 # TinyTeXが正しくインストールされているか確認
 which tlmgr || { echo "tlmgr not found in PATH"; exit 1; }
