@@ -65,6 +65,7 @@ main() {
     mkdir -p data
     mkdir -p output
     cp -r /usr/local/etc/LaTeX/ $proj_path/LaTeX
+    cp -r /usr/local/etc/slides/ $proj_path/slides
 
     if [ ! -d "$proj_path/.git" ]; then
         log_info "Initializing git repository"
@@ -84,6 +85,8 @@ main() {
         if [ -f "$proj_path/renv.lock" ]; then
             log_info "Restoring R environment from renv.lock"
             Rscript -e 'library(renv)' -e 'renv::restore()' -e 'q()' --no-save
+            log_info "Updating renv.lock"
+            Rscript -e 'renv::snapshot()' -e 'q()' --no-save
         fi
     else
         log_error "Project $proj_name is not owned by the current user"

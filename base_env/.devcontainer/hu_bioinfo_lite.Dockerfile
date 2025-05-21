@@ -1,5 +1,5 @@
 # ベースイメージ
-FROM ubuntu:24.04
+FROM rocker/r-ver:4.4.3
 
 # Debianのフロントエンドを非対話型に設定
 ENV DEBIAN_FRONTEND=noninteractive
@@ -9,8 +9,8 @@ COPY /scripts/build.env /etc/build.env
 
 # ビルドスクリプト
 COPY /scripts/setup.sh /build_scripts/setup.sh
+COPY /scripts/create_user.sh /build_scripts/create_user.sh
 COPY /scripts/install_py.sh /build_scripts/install_py.sh
-COPY /scripts/install_r.sh /build_scripts/install_r.sh
 COPY /scripts/install_deps.sh /build_scripts/install_deps.sh
 # COPY /scripts/install_quarto.sh /build_scripts/install_quarto.sh
 # COPY /scripts/install_typst.sh /build_scripts/install_typst.sh
@@ -27,7 +27,6 @@ RUN eval export $(grep -v '^#' /etc/build.env | xargs) && \
     chmod +x /build_scripts/*.sh && \
     /build_scripts/setup.sh && \
     /build_scripts/install_py.sh && \
-    /build_scripts/install_r.sh && \
     apt-get purge -y --auto-remove apt-utils
 
 # install_depsの実行
@@ -39,6 +38,9 @@ RUN /build_scripts/install_deps.sh && \
 # Quarto, Typstのインストール
 # RUN /build_scripts/install_quarto.sh && \
 #     /build_scripts/install_typst.sh
+
+# renvのインストール
+RUN Rscript --no-site-file -e "install.packages('renv', repos = 'https://ftp.yz.yamagata-u.ac.jp/pub/cran/', lib='/usr/local/lib/R/site-library')"
 
 # radianのインストール
 RUN pip3 install -U radian --break-system-packages
@@ -56,32 +58,40 @@ COPY /scripts/install-files/install_util_packages.R /usr/local/etc/scripts/
 RUN mkdir -p /usr/local/etc/scripts && \
     chmod +x /usr/local/etc/scripts/install_util_packages.R
 
+# ユーザー設定
+RUN /build_scripts/create_user.sh
+
 # ファイルのパーミッション設定
 RUN chmod +x /usr/local/bin/add_bashrc.sh && \
-    chown -R ubuntu:ubuntu /usr/local/etc/prem/ && \
+    chown -R user:user /usr/local/etc/prem/ && \
     chmod +x /usr/local/etc/prem/* 
     # && \
-    # chown -R ubuntu:ubuntu /usr/local/etc/LaTeX/ && \
+    # chown -R user:user /usr/local/etc/LaTeX/ && \
     # chmod +x /usr/local/etc/LaTeX/* && \
-    # chown -R ubuntu:ubuntu /usr/local/etc/slides/ && \
+    # chown -R user:user /usr/local/etc/slides/ && \
     # chmod +x /usr/local/etc/slides/*
 
 # TinyTeXビルドスクリプトのパーミッション設定
 # RUN chmod +x /build_scripts/install_tinytex.sh
-# RUN chown ubuntu:ubuntu /build_scripts/install_tinytex.sh
+# RUN chown user:user /build_scripts/install_tinytex.sh
 
 # ディレクトリの作成とパーミッション設定
-RUN mkdir -p /home/ubuntu/cache && \
-    mkdir -p /home/ubuntu/proj && \
-    chown -R ubuntu:ubuntu /home/ubuntu/cache && \
-    chown -R ubuntu:ubuntu /home/ubuntu/proj
+RUN mkdir -p /home/user/cache && \
+    mkdir -p /home/user/proj && \
+    mkdir -p /home/user/.TinyTeX && \
+    chown -R user:user /home/user/cache && \
+    chown -R user:user /home/user/proj && \
+    chown -R user:user /home/user/.TinyTeX
 
 # ユーザーの切り替え
-USER ubuntu
-WORKDIR /home/ubuntu/
+USER user
+WORKDIR /home/user/
+
+# TinyTeXのインストール
+# RUN /build_scripts/install_tinytex.sh
 
 # add_bashrc.shの実行
-RUN cat /usr/local/bin/add_bashrc.sh >> /home/ubuntu/.bashrc
+RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
 
 # デフォルトのシェルをbashに設定
 SHELL ["/bin/bash", "-c"]

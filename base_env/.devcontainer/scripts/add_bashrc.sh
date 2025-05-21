@@ -62,12 +62,21 @@ export PATH=$PATH:/usr/local/etc/prem
 
 # cursor CLI ショートカット
 cursor() {
-  /vscode/cursor-server/bin/linux-x64/0781e811de386a0c5bcb07ceb259df8ff8246a50/bin/remote-cli/cursor "$@"
+  # ハッシュディレクトリを動的に検索
+  CURSOR_BIN_DIR="/home/user/.cursor-server/bin"
+  HASH_DIR=$(ls -d "$CURSOR_BIN_DIR"/*/ 2>/dev/null | grep -v "compatibilty-check" | head -n 1)
+  
+  if [ -n "$HASH_DIR" ] && [ -f "${HASH_DIR}bin/remote-cli/cursor" ]; then
+    "${HASH_DIR}bin/remote-cli/cursor" "$@"
+  else
+    echo "Cursorのremote-cliが見つかりません"
+    return 1
+  fi
 }
 
 # TinyTeXのパスを追加（存在する場合）
-if [ -d "/home/ubuntu/.TinyTeX/bin/x86_64-linux" ]; then
-  export PATH="/home/ubuntu/.TinyTeX/bin/x86_64-linux:$PATH"
+if [ -d "/home/user/.TinyTeX/bin/x86_64-linux" ]; then
+  export PATH="/home/user/.TinyTeX/bin/x86_64-linux:$PATH"
 fi
 
 # radianのエイリアスを"r"に設定

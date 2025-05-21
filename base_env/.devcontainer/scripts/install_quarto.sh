@@ -1,16 +1,22 @@
 #!/bin/bash
 set -e
 
-# 一時ディレクトリ
+# アーキテクチャ判別
+ARCH=$(dpkg --print-architecture)
+# または
+# ARCH=$(uname -m)
+# if [ "$ARCH" = "x86_64" ]; then ARCH="amd64"; elif [ "$ARCH" = "aarch64" ]; then ARCH="arm64"; fi
+
+# バージョン指定
+QUARTO_VERSION="1.7.31"
+
+# URLとファイル名を切り替え
+DEB_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${ARCH}.deb"
+DEB_FILE="quarto-${QUARTO_VERSION}-linux-${ARCH}.deb"
+
 TEMP_DIR=$(mktemp -d)
-
-# 公式サイトから最新のdebファイルを一時ディレクトリにダウンロード
-wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.7.31/quarto-1.7.31-linux-amd64.deb -P $TEMP_DIR
-
-# パッケージをインストール
-dpkg -i $TEMP_DIR/quarto-1.7.31-linux-amd64.deb
-
-# 一時ディレクトリを削除
-rm -rf $TEMP_DIR
+wget "$DEB_URL" -P "$TEMP_DIR"
+dpkg -i "$TEMP_DIR/$DEB_FILE"
+rm -rf "$TEMP_DIR"
 
 quarto check
