@@ -1,8 +1,8 @@
 {
-    "name": "dev-hubioinfows-full-container",
+    "name": "dev-hubioinfows-lite-container",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "container",
-    "workspaceFolder": "/home/ubuntu/proj",
+    "workspaceFolder": "/home/user/proj",
     "forwardPorts": [8080],
     "customizations": {
         "vscode": {
@@ -13,7 +13,10 @@
                 "cweijan.vscode-office",
                 "quarto.quarto",
                 "james-yu.latex-workshop",
-                "chrischinchilla.vscode-pandoc"
+                "chrischinchilla.vscode-pandoc",
+                "github.copilot",
+                "github.copilot-chat",
+                "rooveterinaryinc.roo-cline"
             ],
             "settings": {
                 "r.rterm.linux": "/usr/local/bin/radian",
@@ -29,6 +32,9 @@
                 "r.lsp.promptToInstall": false,
                 "r.alwaysShowREditor": true,
                 "dev.containers.rebuildNotification": "none",
+                "github.copilot.enable": {
+                    "*": false
+                },
                 "pandoc.docxOptString": "--citeproc --bibliography=references.bib --csl=nature.csl",
                 "latex-workshop.latex.recipe.default": "latexmk (lualatex)",
                 "latex-workshop.latex.recipes": [
