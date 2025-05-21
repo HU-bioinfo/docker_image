@@ -4,6 +4,7 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y --fix-broken 
 apt-get install -y --no-install-recommends \
+    sudo \
     build-essential \
     ca-certificates \
     libssl-dev \
@@ -80,7 +81,8 @@ apt-get install -y --no-install-recommends \
     python3-pip \
     pkg-config \
     software-properties-common \
-    apt-utils
+    apt-utils \
+    libjpeg62
 
     # python3 \
     # libmariadb-dev-compat \
