@@ -9,7 +9,7 @@ HU Bioinfo Containerは、[HU Bioinfo Launcher](https://marketplace.visualstudio
 
 ## コンテナ環境の概要
 ### USER
-- ubuntu:ubuntu (1000:1000)
+- user:user (1000:1000)
 - 管理者権限なし
 - パスワード:無し
 
