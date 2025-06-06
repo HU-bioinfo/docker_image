@@ -82,7 +82,10 @@ apt-get install -y --no-install-recommends \
     pkg-config \
     software-properties-common \
     apt-utils \
-    libjpeg62
+    libjpeg62 \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-jpn
 
     # python3 \
     # libmariadb-dev-compat \
