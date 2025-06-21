@@ -33,7 +33,7 @@
                 "r.alwaysShowREditor": true,
                 "dev.containers.rebuildNotification": "none",
                 "github.copilot.enable": {
-                    "*": false
+                    "*": true
                 },
                 "pandoc.docxOptString": "--citeproc --bibliography=references.bib --csl=nature.csl",
                 "latex-workshop.latex.recipe.default": "latexmk (lualatex)",
