@@ -15,6 +15,8 @@ COPY /scripts/install_deps.sh /build_scripts/install_deps.sh
 COPY /scripts/install_quarto.sh /build_scripts/install_quarto.sh
 COPY /scripts/install_typst.sh /build_scripts/install_typst.sh
 COPY /scripts/install_tinytex.sh /build_scripts/install_tinytex.sh
+COPY /scripts/install_nodejs.sh /build_scripts/install_nodejs.sh
+COPY /scripts/install_claude_code.sh /build_scripts/install_claude_code.sh
 
 # 基本依存パッケージのインストール
 RUN apt-get update && \
@@ -34,6 +36,9 @@ RUN /build_scripts/install_deps.sh && \
     apt-get autoremove -y && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/* 
+
+# Node.jsのインストール（install_depsの後、他のインストール前に実行）
+RUN /build_scripts/install_nodejs.sh
 
 # Quarto, Typstのインストール
 RUN /build_scripts/install_quarto.sh && \
@@ -71,9 +76,11 @@ RUN chmod +x /usr/local/bin/add_bashrc.sh && \
     chown -R user:user /usr/local/etc/slides/ && \
     chmod +x /usr/local/etc/slides/*
 
-# TinyTeXビルドスクリプトのパーミッション設定
-RUN chmod +x /build_scripts/install_tinytex.sh
-RUN chown user:user /build_scripts/install_tinytex.sh
+# ビルドスクリプトのパーミッション設定
+RUN chmod +x /build_scripts/install_tinytex.sh && \
+    chmod +x /build_scripts/install_claude_code.sh && \
+    chown user:user /build_scripts/install_tinytex.sh && \
+    chown user:user /build_scripts/install_claude_code.sh
 
 # ディレクトリの作成とパーミッション設定
 RUN mkdir -p /home/user/cache && \
@@ -89,6 +96,9 @@ WORKDIR /home/user/
 
 # TinyTeXのインストール
 RUN /build_scripts/install_tinytex.sh
+
+# Claude Codeのインストール
+RUN /build_scripts/install_claude_code.sh
 
 # add_bashrc.shの実行
 RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
