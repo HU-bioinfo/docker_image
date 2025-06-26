@@ -60,16 +60,16 @@ done
 
 export PATH=$PATH:/usr/local/etc/prem
 
-# cursor CLI ショートカット
-cursor() {
+# VSCode CLI ショートカット
+code() {
   # ハッシュディレクトリを動的に検索
-  CURSOR_BIN_DIR="/home/user/.cursor-server/bin"
-  HASH_DIR=$(ls -d "$CURSOR_BIN_DIR"/*/ 2>/dev/null | grep -v "compatibilty-check" | head -n 1)
+  VSCODE_BIN_DIR="/home/user/.vscode-server/bin"
+  HASH_DIR=$(ls -d "$VSCODE_BIN_DIR"/*/ 2>/dev/null | head -n 1)
   
-  if [ -n "$HASH_DIR" ] && [ -f "${HASH_DIR}bin/remote-cli/cursor" ]; then
-    "${HASH_DIR}bin/remote-cli/cursor" "$@"
+  if [ -n "$HASH_DIR" ] && [ -f "${HASH_DIR}bin/remote-cli/code" ]; then
+    "${HASH_DIR}bin/remote-cli/code" "$@"
   else
-    echo "Cursorのremote-cliが見つかりません"
+    echo "VSCodeのremote-cliが見つかりません"
     return 1
   fi
 }
@@ -78,6 +78,9 @@ cursor() {
 if [ -d "/home/user/.TinyTeX/bin/x86_64-linux" ]; then
   export PATH="/home/user/.TinyTeX/bin/x86_64-linux:$PATH"
 fi
+
+# npm globalパスを追加（Claudeコマンド用）
+export PATH="/home/user/.npm-global/bin:$PATH"
 
 # radianのエイリアスを"r"に設定
 alias r="radian"

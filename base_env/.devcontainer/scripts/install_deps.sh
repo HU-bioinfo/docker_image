@@ -49,7 +49,6 @@ apt-get install -y --no-install-recommends \
     make \
     default-libmysqlclient-dev \
     unixodbc-dev \
-    libnode-dev \
     default-jdk \
     libxml2-dev \
     libssh2-1-dev \
