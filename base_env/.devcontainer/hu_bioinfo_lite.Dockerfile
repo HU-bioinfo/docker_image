@@ -10,11 +10,8 @@ COPY /scripts/build.env /etc/build.env
 # ビルドスクリプト
 COPY /scripts/setup.sh /build_scripts/setup.sh
 COPY /scripts/create_user.sh /build_scripts/create_user.sh
-COPY /scripts/install_py.sh /build_scripts/install_py.sh
-COPY /scripts/install_deps.sh /build_scripts/install_deps.sh
-# COPY /scripts/install_quarto.sh /build_scripts/install_quarto.sh
-# COPY /scripts/install_typst.sh /build_scripts/install_typst.sh
-# COPY /scripts/install_tinytex.sh /build_scripts/install_tinytex.sh
+COPY /scripts/installer/install_py.sh /build_scripts/install_py.sh
+COPY /scripts/installer/install_deps.sh /build_scripts/install_deps.sh
 
 # 基本依存パッケージのインストール
 RUN apt-get update && \
@@ -35,10 +32,6 @@ RUN /build_scripts/install_deps.sh && \
     apt-get autoclean -y && \
     rm -rf /var/lib/apt/lists/* 
 
-# Quarto, Typstのインストール
-# RUN /build_scripts/install_quarto.sh && \
-#     /build_scripts/install_typst.sh
-
 # renvのインストール
 RUN Rscript --no-site-file -e "install.packages('renv', repos = 'https://ftp.yz.yamagata-u.ac.jp/pub/cran/', lib='/usr/local/lib/R/site-library')"
 
@@ -51,8 +44,6 @@ COPY /scripts/.Rprofile /usr/local/etc/R/.Rprofile
 COPY /scripts/add_bashrc.sh /usr/local/bin/add_bashrc.sh
 COPY /scripts/prem/ /usr/local/etc/prem/
 COPY /scripts/install-files/install_util_packages.R /usr/local/etc/scripts/
-# COPY /scripts/LaTeX/ /usr/local/etc/LaTeX/
-# COPY /scripts/slides/ /usr/local/etc/slides/
 
 # スクリプトディレクトリの作成
 RUN mkdir -p /usr/local/etc/scripts && \
@@ -65,30 +56,16 @@ RUN /build_scripts/create_user.sh
 RUN chmod +x /usr/local/bin/add_bashrc.sh && \
     chown -R user:user /usr/local/etc/prem/ && \
     chmod +x /usr/local/etc/prem/* 
-    # && \
-    # chown -R user:user /usr/local/etc/LaTeX/ && \
-    # chmod +x /usr/local/etc/LaTeX/* && \
-    # chown -R user:user /usr/local/etc/slides/ && \
-    # chmod +x /usr/local/etc/slides/*
-
-# TinyTeXビルドスクリプトのパーミッション設定
-# RUN chmod +x /build_scripts/install_tinytex.sh
-# RUN chown user:user /build_scripts/install_tinytex.sh
 
 # ディレクトリの作成とパーミッション設定
 RUN mkdir -p /home/user/cache && \
     mkdir -p /home/user/proj && \
-    mkdir -p /home/user/.TinyTeX && \
     chown -R user:user /home/user/cache && \
-    chown -R user:user /home/user/proj && \
-    chown -R user:user /home/user/.TinyTeX
+    chown -R user:user /home/user/proj 
 
 # ユーザーの切り替え
 USER user
 WORKDIR /home/user/
-
-# TinyTeXのインストール
-# RUN /build_scripts/install_tinytex.sh
 
 # add_bashrc.shの実行
 RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc
