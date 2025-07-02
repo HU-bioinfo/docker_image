@@ -4,11 +4,11 @@ FROM hubioinfows/lite_env:latest
 USER root
 
 # 追加ソフトウェアビルドスクリプト
-COPY /scripts/installer/install_quarto.sh /build_scripts/install_quarto.sh
-COPY /scripts/installer/install_typst.sh /build_scripts/install_typst.sh
-COPY /scripts/installer/install_tinytex.sh /build_scripts/install_tinytex.sh
-COPY /scripts/installer/install_nodejs.sh /build_scripts/install_nodejs.sh
-COPY /scripts/installer/install_claude_code.sh /build_scripts/install_claude_code.sh
+COPY scripts/installer/install_quarto.sh /build_scripts/install_quarto.sh
+COPY scripts/installer/install_typst.sh /build_scripts/install_typst.sh
+COPY scripts/installer/install_tinytex.sh /build_scripts/install_tinytex.sh
+COPY scripts/installer/install_nodejs.sh /build_scripts/install_nodejs.sh
+COPY scripts/installer/install_claude_code.sh /build_scripts/install_claude_code.sh
 
 RUN chmod +x /build_scripts/*.sh
 
@@ -23,8 +23,8 @@ RUN /build_scripts/install_quarto.sh && \
 RUN Rscript --no-site-file -e "install.packages('tinytex', repos = 'https://ftp.yz.yamagata-u.ac.jp/pub/cran/', lib='/usr/local/lib/R/site-library')"
 
 # 環境変数ファイルのコピー
-COPY /scripts/LaTeX/ /usr/local/etc/LaTeX/
-COPY /scripts/slides/ /usr/local/etc/slides/
+COPY scripts/LaTeX/ /usr/local/etc/LaTeX/
+COPY scripts/slides/ /usr/local/etc/slides/
 
 # ファイルのパーミッション設定
 RUN chown -R user:user /usr/local/etc/LaTeX/ && \
@@ -51,6 +51,9 @@ RUN /build_scripts/install_tinytex.sh
 
 # Claude Codeのインストール
 RUN /build_scripts/install_claude_code.sh
+
+# Cargo/Typst用とTinyTeX用のPATH設定
+ENV PATH="/home/user/.cargo/bin:/home/user/.TinyTeX/bin/x86_64-linux:${PATH}"
 
 # デフォルトのシェルをbashに設定
 SHELL ["/bin/bash", "-c"]

@@ -5,13 +5,13 @@ FROM rocker/r-ver:4.4.3
 ENV DEBIAN_FRONTEND=noninteractive
 
 # ビルド環境の設定ファイル
-COPY /scripts/build.env /etc/build.env
+COPY scripts/build.env /etc/build.env
 
 # ビルドスクリプト
-COPY /scripts/setup.sh /build_scripts/setup.sh
-COPY /scripts/create_user.sh /build_scripts/create_user.sh
-COPY /scripts/installer/install_py.sh /build_scripts/install_py.sh
-COPY /scripts/installer/install_deps.sh /build_scripts/install_deps.sh
+COPY scripts/setup.sh /build_scripts/setup.sh
+COPY scripts/create_user.sh /build_scripts/create_user.sh
+COPY scripts/installer/install_py.sh /build_scripts/install_py.sh
+COPY scripts/installer/install_deps.sh /build_scripts/install_deps.sh
 
 # 基本依存パッケージのインストール
 RUN apt-get update && \
@@ -36,14 +36,18 @@ RUN /build_scripts/install_deps.sh && \
 RUN Rscript --no-site-file -e "install.packages('renv', repos = 'https://ftp.yz.yamagata-u.ac.jp/pub/cran/', lib='/usr/local/lib/R/site-library')"
 
 # radianのインストール
-RUN pip3 install -U radian --break-system-packages
+RUN eval export $(grep -v '^#' /etc/build.env | xargs) && \
+    uv tool install radian
+
+# uv toolのPATH設定
+ENV PATH="/root/.local/bin:${PATH}"
 
 # 環境変数ファイルのコピー
-COPY /scripts/.envrc /usr/local/etc/.envrctemp
-COPY /scripts/.Rprofile /usr/local/etc/R/.Rprofile
-COPY /scripts/add_bashrc.sh /usr/local/bin/add_bashrc.sh
-COPY /scripts/prem/ /usr/local/etc/prem/
-COPY /scripts/install-files/install_util_packages.R /usr/local/etc/scripts/
+COPY scripts/.envrc /usr/local/etc/.envrctemp
+COPY scripts/.Rprofile /usr/local/etc/R/.Rprofile
+COPY scripts/add_bashrc.sh /usr/local/bin/add_bashrc.sh
+COPY scripts/prem/ /usr/local/etc/prem/
+COPY scripts/install-files/install_util_packages.R /usr/local/etc/scripts/
 
 # スクリプトディレクトリの作成
 RUN mkdir -p /usr/local/etc/scripts && \
