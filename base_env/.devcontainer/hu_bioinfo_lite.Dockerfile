@@ -35,13 +35,6 @@ RUN /build_scripts/install_deps.sh && \
 # renvのインストール
 RUN Rscript --no-site-file -e "install.packages('renv', repos = 'https://ftp.yz.yamagata-u.ac.jp/pub/cran/', lib='/usr/local/lib/R/site-library')"
 
-# radianのインストール
-RUN eval export $(grep -v '^#' /etc/build.env | xargs) && \
-    uv tool install radian
-
-# uv toolのPATH設定
-ENV PATH="/root/.local/bin:${PATH}"
-
 # 環境変数ファイルのコピー
 COPY scripts/.envrc /usr/local/etc/.envrctemp
 COPY scripts/.Rprofile /usr/local/etc/R/.Rprofile
@@ -70,6 +63,10 @@ RUN mkdir -p /home/user/cache && \
 # ユーザーの切り替え
 USER user
 WORKDIR /home/user/
+
+# radianのインストール（userとして実行）
+RUN eval export $(grep -v '^#' /etc/build.env | xargs) && \
+    uv tool install radian
 
 # add_bashrc.shの実行
 RUN cat /usr/local/bin/add_bashrc.sh >> /home/user/.bashrc

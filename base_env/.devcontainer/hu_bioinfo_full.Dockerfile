@@ -1,5 +1,5 @@
 # ベースイメージ
-FROM hubioinfows/lite_env:latest
+FROM hubioinfows/lite_env:test
 
 USER root
 
@@ -52,8 +52,6 @@ RUN /build_scripts/install_tinytex.sh
 # Claude Codeのインストール
 RUN /build_scripts/install_claude_code.sh
 
-# Cargo/Typst用とTinyTeX用のPATH設定
-ENV PATH="/home/user/.cargo/bin:/home/user/.TinyTeX/bin/x86_64-linux:${PATH}"
 
 # デフォルトのシェルをbashに設定
 SHELL ["/bin/bash", "-c"]

@@ -92,6 +92,19 @@ code() {
   fi
 }
 
+# uvツール用のパスを追加（root用とuser用の両方をチェック）
+if [ -d "/root/.local/bin" ]; then
+  export PATH="/root/.local/bin:$PATH"
+fi
+if [ -d "/home/user/.local/bin" ]; then
+  export PATH="/home/user/.local/bin:$PATH"
+fi
+
+# Cargoのパスを追加（存在する場合）
+if [ -d "/home/user/.cargo/bin" ]; then
+  export PATH="/home/user/.cargo/bin:$PATH"
+fi
+
 # TinyTeXのパスを追加（存在する場合）
 if [ -d "/home/user/.TinyTeX/bin/x86_64-linux" ]; then
   export PATH="/home/user/.TinyTeX/bin/x86_64-linux:$PATH"
