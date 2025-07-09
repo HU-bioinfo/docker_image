@@ -9,7 +9,7 @@ services:
       - DISABLE_AUTH=true
       - CACHE_DIR=/home/user/cache
       - PROJ_DIR=/home/user/proj
-      - GITHUB_PAT={{GITHUB_PAT}}
+      - GITHUB_PAT=${GITHUB_PAT}
     volumes:
       - ../projects:/home/user/proj
       - ../../cache:/home/user/cache
