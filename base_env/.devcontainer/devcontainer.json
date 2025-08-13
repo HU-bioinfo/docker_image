@@ -1,5 +1,5 @@
 {
-    "name": "hubioinfows-lite-container",
+    "name": "dev-hubioinfows-lite-container",
     "dockerComposeFile": "./docker-compose.yml",
     "service": "container",
     "workspaceFolder": "/home/user/proj",
