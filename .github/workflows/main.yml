@@ -5,7 +5,7 @@ on:
     paths:
       - 'base_env/.devcontainer/devcontainer.json'
       - 'base_env/.devcontainer/docker-compose.yml'
-  workflow_dispatch:  # 手動実行も可能
+  workflow_dispatch:
 
 jobs:
   sync-files:
@@ -19,13 +19,12 @@ jobs:
           find base_env/.devcontainer -type f ! -name 'devcontainer.json' ! -name 'docker-compose.yml' -delete
 
       - name: Push to target repository
-        uses: cpina/github-action-push-to-another-repository@v2.6.0
+        uses: Songmu/action-push-to-another-repository@v1.0.0
         with:
           source-directory: 'base_env/.devcontainer'
           destination-github-username: HU-bioinfo
           destination-repository-name: container_template_for_linux_server
           user-email: 'github-actions@example.com'
-          branch: 'main'
+          target-branch: 'main'
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
-
