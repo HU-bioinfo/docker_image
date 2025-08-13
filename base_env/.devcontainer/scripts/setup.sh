@@ -2,8 +2,6 @@
 
 apt-get update && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-passwd -d ubuntu
-
 sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen 
 sed -i '/ja_JP.UTF-8/s/^# //g' /etc/locale.gen
 locale-gen ja_JP.UTF-8
