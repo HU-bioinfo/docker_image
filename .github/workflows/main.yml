@@ -13,6 +13,10 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
+      - name: Remove unnecessary files
+        run: |
+          find base_env/.devcontainer -type f ! -name 'devcontainer.json' ! -name 'docker-compose.yml' -delete
+
       - name: Push to another repo
         uses: cpina/github-action-push-to-another-repository@v1
         with:
@@ -20,5 +24,6 @@ jobs:
           destination-github-username: HU-bioinfo
           destination-repository-name: container_template_for_linux_server
           user-email: 'your-email@example.com'
+          destination-branch: 'main'
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
