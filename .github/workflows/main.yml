@@ -19,11 +19,12 @@ jobs:
           find base_env/.devcontainer -type f ! -name 'devcontainer.json' ! -name 'docker-compose.yml' -delete
 
       - name: Push to target repository
-        uses: Songmu/action-push-to-another-repository@v2.0.2
+        uses: cpina/github-action-push-to-another-repository@v1.7.2
         with:
-          github-token: ${{ secrets.TARGET_REPO_TOKEN }}
-          destination-repository: 'HU-bioinfo/container_template_for_linux_server'
           source-directory: 'base_env/.devcontainer'
-          destination-branch: 'main'
-          destination-directory: '.devcontainer'
-          commit-message: 'Update .devcontainer files from source repository'
+          destination-github-username: 'HU-bioinfo'
+          destination-repository-name: 'container_template_for_linux_server'
+          user-email: 'github-actions@example.com'
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
+
