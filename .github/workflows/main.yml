@@ -25,6 +25,6 @@ jobs:
           destination-github-username: 'HU-bioinfo'
           destination-repository-name: 'container_template_for_linux_server'
           user-email: 'github-actions@example.com'
+          target-directory: '.devcontainer'
         env:
           API_TOKEN_GITHUB: ${{ secrets.TARGET_REPO_TOKEN }}
-
